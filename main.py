@@ -16,10 +16,62 @@
 #
 import webapp2
 
-class MainHandler(webapp2.RequestHandler):
+import cgi
+
+# html boilerplate for the top of every page
+page_header = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+    <style type="text/css">
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        <a href="/">Signup</a>
+    </h1>
+"""
+
+# html boilerplate for the bottom of every page
+page_footer = """
+</body>
+</html>
+"""
+
+class Index(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+       
+
+        # a form for adding new movies
+        user_form = """
+        <form action="/add" method="post">
+            <label>
+                Username
+                <input type="text" name="user_name"/>
+                
+            </label></br>
+        <form action="/add" method="post">
+            <label>
+                Password
+                <input type="text" name="password"/>
+            </label><br>
+        <form action="/add" method="post">
+            <label>
+                Password (confirm)
+                <input type="text" name="confirm"/>
+            </label><br>
+            <input type="submit" value="Submit"/>
+        </form>
+        """
+        self.response.write(user_form)
+        
+        
+
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', Index)
 ], debug=True)
