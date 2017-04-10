@@ -177,12 +177,12 @@ class Index(webapp2.RequestHandler):
             error = True
         
  
-        
-        if error == True:
-            self.redirect("/welcome?username=%s" % user_username)
-        else:
+        if error:
             self.write_form(esc_username, esc_password, esc_verify, esc_email, username_error, password_error, verify_error, email_error)
         
+        else:
+            self.redirect("/welcome?username=%s" % user_username)
+ 
 class WelcomeHandler(webapp2.RequestHandler):
     def get(self):
         username = self.request.get("username")
