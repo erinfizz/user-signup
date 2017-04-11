@@ -41,61 +41,57 @@ user_form = """
     <form method="post">
       <table>
         <tr>
-          <td class="label">
-            Username
-          </td>
-          <td>
-            <input type="text" name="username" value="%(username)s">
-          </td>
-          <td class="error">
-            %(username_error)s
-          </td>
+            <td class="label">
+                Username
+            </td>
+            <td>
+                <input type="text" name="username" value="%(username)s">
+            </td>
+            <td class="error">
+                %(username_error)s
+            </td>
         </tr>
  
         <tr>
-          <td class="label">
-            Password
-          </td>
-          <td>
-            <input type="password" name="password" value="%(password)s">
-          </td>
-          <td class="error">
-            %(password_error)s
-          </td>
-             
-          </td>
+            <td class="label">
+                Password
+            </td>
+            <td>
+                <input type="password" name="password" value="%(password)s">
+            </td>
+            <td class="error">
+                %(password_error)s
+            </td>
         </tr>
  
         <tr>
-          <td class="label">
+            <td class="label">
             Verify Password
-          </td>
-          <td>
-            <input type="password" name="verify" value="%(verify)s">
-          </td>
-          <td class="error">
-            %(verify_error)s
-          </td>
+            </td>
+            <td>
+                <input type="password" name="verify" value="%(verify)s">
+            </td>
+            <td class="error">
+                %(verify_error)s
+            </td>
         </tr>
  
         <tr>
-          <td class="label">
-            Email (optional)
-          </td>
-          <td>
-            <input type="text" name="email" value="%(email)s">
-          </td>
-          <td class="error">
-            %(email_error)s
-          </td>
+            <td class="label">
+                Email (optional)
+            </td>
+            <td>
+                <input type="text" name="email" value="%(email)s">
+            </td>
+            <td class="error">
+                %(email_error)s
+            </td>
         </tr>
       </table>
  
       <input type="submit">
     </form>
-  </body>
- 
-</html>
+  
 """
 class Index(webapp2.RequestHandler):
     
@@ -159,13 +155,14 @@ class Index(webapp2.RequestHandler):
         
         
         
-        if username_error=="" or password_error=="" or verify_error=="" or email_error=="" or email=="":
-            self.redirect("/welcome?username=%s" % user_username)
+        if username_error!="" or password_error!="" or verify_error!="" or email_error!="":
+            self.write_form(esc_username, esc_password, esc_verify, esc_email, username_error, password_error, verify_error, email_error)
            
             
         else:
              
-            self.write_form(esc_username, esc_password, esc_verify, esc_email, username_error, password_error, verify_error, email_error)
+            
+            self.redirect("/welcome?username=%s" % user_username)
 class WelcomeHandler(webapp2.RequestHandler):
     def get(self):
         username = self.request.get("username")
