@@ -22,39 +22,20 @@ import re
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 def valid_username(username):
-    return username and USER_RE.match(username)
+    return USER_RE.match(username)
     
 PASS_RE = re.compile(r"^.{3,20}$")
 def valid_password(password):
-    return password and PASS_RE.match(password)
+    return PASS_RE.match(password)
 
 EMAIL_RE = re.compile(r"^[\S]+@[\S]+.[\S]+$")
 def valid_email(email):
-    return email or EMAIL_RE.match(email) 
+    return EMAIL_RE.match(email) 
     
 def escape_html(s):
     return cgi.escape(s, quote=True)
 # html boilerplate for the top of every page
-page_header = """
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Signup</title>
-    <style type="text/css">
-        .error {
-            color: red;
-        }
-    </style>
-</head>
-<body>
-   
-"""
 
-# html boilerplate for the bottom of every page
-page_footer = """
-</body>
-</html>
-"""
 user_form = """
     <h2>Signup</h2>
     <form method="post">
@@ -154,35 +135,37 @@ class Index(webapp2.RequestHandler):
         verify_error = ""
         email_error = ""
  
-        error = False
+        
  
         if not valid_username(user_username):
             username_error = "That is not a valid username."
-            error = True
- 
+            
+            
         if not valid_password(user_password):
             password_error = "That is not a valid password."
-            error = True
+            
  
-        if not user_verify or not user_password == user_verify:
+        if not user_password == user_verify:
             verify_error = "Your passwords do not match!"
-            error = True
+            
         
         if user_email=="":
             email=""
-            error = False
+            
         
         elif not valid_email(user_email):
             email_error = "That is not a valid email address."
-            error = True
+            
         
- 
         
-        if error == True:
+        
+        if username_error=="" or password_error=="" or verify_error=="" or email_error=="" or email=="":
             self.redirect("/welcome?username=%s" % user_username)
+           
+            
         else:
+             
             self.write_form(esc_username, esc_password, esc_verify, esc_email, username_error, password_error, verify_error, email_error)
-        
 class WelcomeHandler(webapp2.RequestHandler):
     def get(self):
         username = self.request.get("username")
